@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="utf-8" http-equiv="encoding">
+	<title>Browser Notifications Test</title>
+</head>
+<body>
+	<h1>Browser Notifications Test</h1>
+
+	<button id="notificationEnable">Enable Notifications</button>
+	<button id="sendNotification">Send Notification</button>
+
+	<script type="text/javascript">
+		var notificationButton = document.getElementById("notificationEnable");
+		notificationButton.onclick = requestPermission;
+
+		function requestPermission(event) {
+			Notification.requestPermission().then(function(result) {
+				Notification.permission = result;
+
+				if(result === 'denied' || result === 'default') {
+					notificationButton.disabled = false;
+				} else {
+					notificationButton.disabled = true;
+				}
+
+				console.log("Notification permission status: " + result);
+			});
+		}
+
+		var sendNotificationButton = document.getElementById("sendNotification");
+		sendNotificationButton.onclick = sendNotification;
+
+		function sendNotification()
+		{
+			var img = 'img/paper-plane.svg';	//Icons made by <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+			var text = 'Test notification text';
+			var notification = new Notification('Notification title text', { body: text, icon: img });
+
+			notification.onclose = function(event){
+				console.log("Notification closed");
+			}
+		}
+	</script>
+</body>
+</html>
