@@ -10,6 +10,7 @@
 
 	<button id="notificationEnable">Enable Notifications</button>
 	<button id="sendNotification">Send Notification</button>
+	<button id="sendReplaceNotification">Replace Notification from the above button</button>
 
 	<script type="text/javascript">
 		var notificationButton = document.getElementById("notificationEnable");
@@ -29,14 +30,37 @@
 			});
 		}
 
+		var lastNofificationId = '';
+		var i = 0;
+
 		var sendNotificationButton = document.getElementById("sendNotification");
 		sendNotificationButton.onclick = sendNotification;
 
+		var sendReplaceNotificationButton = document.getElementById("sendReplaceNotification");
+		sendReplaceNotificationButton.onclick = sendReplaceNotification;
+		sendReplaceNotificationButton.disabled = true;
+
 		function sendNotification()
 		{
+			i++;
+			lastNofificationId = 'singleNotificationOnly' + i;
+
 			var img = 'img/paper-plane.svg';	//Icons made by <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
-			var text = 'Test notification text';
-			var notification = new Notification('Notification title text', { body: text, icon: img });
+			var text = 'Test notification text: ' + i;
+			var notification = new Notification('Notification title text', { body: text, icon: img, tag: lastNofificationId});
+
+			notification.onclose = function(event){
+				console.log("Notification closed");
+			}
+
+			sendReplaceNotificationButton.disabled = false;
+		}
+
+		function sendReplaceNotification()
+		{
+			var img = 'img/paper-plane.svg';	//Icons made by <a href="https://www.flaticon.com/authors/gregor-cresnar" title="Gregor Cresnar">Gregor Cresnar</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+			var text = 'Test notification text was ' + i + ' REPLACED!';
+			var notification = new Notification('Notification title text', { body: text, icon: img, tag: lastNofificationId });
 
 			notification.onclose = function(event){
 				console.log("Notification closed");

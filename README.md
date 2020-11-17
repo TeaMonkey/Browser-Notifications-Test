@@ -4,8 +4,8 @@ Throwing some code together to test browser notifications.
 
 Works in FF 82
 
-TODO: Add in notification replacement
 TODO: Add Chrome support
+TODO: Add in service worker (push) notification support
 
 ---
 
